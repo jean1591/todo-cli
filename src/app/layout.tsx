@@ -16,7 +16,10 @@ export default function RootLayout({
     <StoreProvider>
       <html lang="fr">
         <body
-          className={classNames(inter.className, "bg-slate-200 text-slate-800")}
+          className={classNames(
+            inter.className,
+            "bg-zinc-900 text-zinc-100 mt-8 px-4 mx-auto max-w-7xl"
+          )}
         >
           {children}
           <Analytics />
