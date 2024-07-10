@@ -1,15 +1,18 @@
 import { CommandLine } from "./components/commandLine";
 import { History } from "./components/history";
+import { Todos } from "./components/todos";
 
 export default async function Home() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4">
-      <div className="grid col-span-1 sm:col-span-2 order-2 sm:order-1 mt-8 sm:mt-0">
+    <div className="lg:flex items-start justify-center gap-4 space-y-4 lg:space-y-0">
+      <div className="lg:flex-col flex-1 space-y-1">
         <History />
         <CommandLine />
       </div>
 
-      <div className="grid col-span-1 order-1 sm:order-2">TODO</div>
+      <div className="flex-1">
+        <Todos />
+      </div>
     </div>
   );
 }

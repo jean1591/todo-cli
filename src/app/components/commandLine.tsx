@@ -1,23 +1,20 @@
 "use client";
 
-import { Action, Command } from "../lib/interfaces/command";
 import { KeyboardEvent, useState } from "react";
 import {
-  getActionAndDetailsFromCommand,
-  isActionAvailable,
-} from "@/utils/commands";
+  addCommandToHistory,
+  addErrorToHistory,
+} from "../lib/store/features/commands/slice";
+import { addTodo, setTodos } from "../lib/store/features/todo/slice";
 
+import { Action } from "../lib/interfaces/command";
 import { PiCaretRightBold } from "react-icons/pi";
-import { addCommandToHistory } from "../lib/store/features/commands/slice";
+import { Todo } from "../lib/interfaces/todo";
+import { getActionAndDetailsFromCommand } from "@/utils/commands";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-const generateErrorCommand = (action: string): Command => ({
-  action: "error" as Action,
-  actionColour: "text-red-400",
-  details: `unknown "${action}" command. Check available commands with help`,
-  uuid: uuidv4(),
-});
+const isCommandEmpty = (command: string) => command.trim() === "";
 
 export const CommandLine = () => {
   const dispatch = useDispatch();
@@ -29,17 +26,46 @@ export const CommandLine = () => {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      if (command.trim() !== "") {
+      if (!isCommandEmpty(command)) {
         const formattedCommand = getActionAndDetailsFromCommand(command);
+        console.log("🚀:", formattedCommand);
         dispatch(addCommandToHistory(formattedCommand));
 
-        if (!isActionAvailable(formattedCommand.action)) {
-          dispatch(
-            addCommandToHistory(generateErrorCommand(formattedCommand.action))
-          );
-        }
+        const todos = JSON.parse(
+          window.localStorage.getItem("todos") ?? ""
+        ) as Todo[];
 
-        setCommand("");
+        switch (formattedCommand.action) {
+          case Action.TODO:
+            const todo: Todo = {
+              createdAt: new Date().toISOString().slice(0, 10),
+              id: uuidv4().slice(0, 8),
+              title: formattedCommand.details,
+            };
+
+            window.localStorage.setItem(
+              "todos",
+              JSON.stringify([...todos, todo])
+            );
+            dispatch(addTodo(todo));
+
+            setCommand("");
+            return;
+          case Action.TERMINATE:
+            const updatedTodos = todos.filter(
+              ({ id }) => id !== formattedCommand.details
+            );
+
+            window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
+            dispatch(setTodos(updatedTodos));
+
+            setCommand("");
+            return;
+          default:
+            dispatch(
+              addErrorToHistory(`unknown "${formattedCommand.action}" command`)
+            );
+        }
       } else {
         console.log("Invalid input: Input cannot be empty");
       }
@@ -47,7 +73,7 @@ export const CommandLine = () => {
   };
 
   return (
-    <div className="mt-1 flex items-center justify-start gap-x-1">
+    <div className="flex items-center justify-start gap-x-1">
       <PiCaretRightBold className="h-4 w-4 text-green-400" />
       <input
         autoFocus

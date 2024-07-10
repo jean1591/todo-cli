@@ -1,13 +1,11 @@
 export enum Action {
-  ADD = "add",
-  CD = "cd",
   ERROR = "error",
   HELP = "help",
-  MKDIR = "mkdir",
   TERMINATE = "terminate",
+  TODO = "todo",
 }
 
-export const actions = ["add", "cd", "help", "mkdir", "terminate"];
+export const actions = ["todo", "help", "terminate"];
 
 export interface Command {
   action: Action;

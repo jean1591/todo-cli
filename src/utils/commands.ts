@@ -1,4 +1,4 @@
-import { Action, Command, actions } from "@/app/lib/interfaces/command";
+import { Action, Command } from "@/app/lib/interfaces/command";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -14,8 +14,4 @@ export const getActionAndDetailsFromCommand = (rawCommand: string): Command => {
     details,
     uuid: uuidv4(),
   };
-};
-
-export const isActionAvailable = (action: string): boolean => {
-  return actions.includes(action);
 };

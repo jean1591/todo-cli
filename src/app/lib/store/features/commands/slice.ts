@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialHistoryCommands: Command[] = [
   {
-    action: Action.ADD,
+    action: Action.TODO,
     actionColour: "text-green-400",
     details: "call bob",
     uuid: uuidv4(),
   },
   {
-    action: Action.ADD,
+    action: Action.TODO,
     actionColour: "text-green-400",
     details: "go to dentist",
     uuid: uuidv4(),
@@ -30,19 +30,7 @@ const initialHistoryCommands: Command[] = [
     uuid: uuidv4(),
   },
   {
-    action: Action.MKDIR,
-    actionColour: "text-green-400",
-    details: "work",
-    uuid: uuidv4(),
-  },
-  {
-    action: Action.CD,
-    actionColour: "text-green-400",
-    details: "work",
-    uuid: uuidv4(),
-  },
-  {
-    action: Action.ADD,
+    action: Action.TODO,
     actionColour: "text-green-400",
     details: "email frank about contract signature",
     uuid: uuidv4(),
@@ -64,9 +52,18 @@ export const commandsSlice = createSlice({
     addCommandToHistory: (state, action: PayloadAction<Command>) => {
       state.history = [...state.history, action.payload];
     },
+    addErrorToHistory: (state, action: PayloadAction<string>) => {
+      const error: Command = {
+        action: "error" as Action,
+        actionColour: "text-red-400",
+        details: `${action.payload}. Check available commands with help`,
+        uuid: uuidv4(),
+      };
+      state.history = [...state.history, error];
+    },
   },
 });
 
-export const { addCommandToHistory } = commandsSlice.actions;
+export const { addCommandToHistory, addErrorToHistory } = commandsSlice.actions;
 
 export default commandsSlice.reducer;
