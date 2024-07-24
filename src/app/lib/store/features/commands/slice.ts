@@ -26,7 +26,7 @@ const initialHistoryCommands: Command[] = [
   {
     action: Action.TERMINATE,
     actionColour: "text-green-400",
-    details: "1ef6",
+    details: "0f58e62e",
     uuid: uuidv4(),
   },
   {

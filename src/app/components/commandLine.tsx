@@ -28,11 +28,10 @@ export const CommandLine = () => {
     if (event.key === "Enter") {
       if (!isCommandEmpty(command)) {
         const formattedCommand = getActionAndDetailsFromCommand(command);
-        console.log("🚀:", formattedCommand);
         dispatch(addCommandToHistory(formattedCommand));
 
         const todos = JSON.parse(
-          window.localStorage.getItem("todos") ?? ""
+          window.localStorage.getItem("todos") ?? "[]"
         ) as Todo[];
 
         switch (formattedCommand.action) {
@@ -61,10 +60,14 @@ export const CommandLine = () => {
 
             setCommand("");
             return;
+          case Action.HELP:
+            setCommand("");
+            return;
           default:
             dispatch(
               addErrorToHistory(`unknown "${formattedCommand.action}" command`)
             );
+            setCommand("");
         }
       } else {
         console.log("Invalid input: Input cannot be empty");

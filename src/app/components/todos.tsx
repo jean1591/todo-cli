@@ -1,11 +1,11 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import { RootState } from "../lib/store/store";
 import { Todo } from "../lib/interfaces/todo";
 import { setTodos } from "../lib/store/features/todo/slice";
+import { useEffect } from "react";
 
 export const Todos = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export const Todos = () => {
 
   useEffect(() => {
     const localStorageTodos = JSON.parse(
-      window.localStorage.getItem("todos") ?? ""
+      window.localStorage.getItem("todos") ?? "[]"
     ) as Todo[];
 
     dispatch(setTodos(localStorageTodos));
