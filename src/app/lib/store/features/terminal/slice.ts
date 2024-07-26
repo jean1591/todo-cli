@@ -3,18 +3,30 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialLines = [
   '<p className="text-green-300 mt-4">visitor@jata.com: ~$ touch call frank</p>',
-  '<p className="ml-8 text-blue-400"><span className="font-semibold">call frank</span> was added to todo list</p>',
+  '<p className="ml-8 text-zinc-100"><span className="text-blue-400 font-semibold">call frank</span> was added to todo list</p>',
   '<p className="text-green-300 mt-4">visitor@jata.com: ~$ touch see camille</p>',
-  '<p className="ml-8 text-blue-400"><span className="font-semibold">see camille</span> was added to todo list</p>',
+  '<p className="ml-8 text-zinc-100"><span className="text-blue-400 font-semibold">see camille</span> was added to todo list</p>',
 ];
+
+export interface Stats {
+  currentTodoCount: number;
+  totalTodoCount: number;
+  terminatedTodos: number;
+}
 
 export interface TerminalSlice {
   lines: string[];
+  stats: Stats;
   todos: string[];
 }
 
 const initialState: TerminalSlice = {
   lines: initialLines,
+  stats: {
+    currentTodoCount: 2,
+    totalTodoCount: 2,
+    terminatedTodos: 0,
+  },
   todos: ["call frank", "see camille"],
 };
 
@@ -27,13 +39,27 @@ export const terminalSlice = createSlice({
     },
     addTodo: (state, action: PayloadAction<string>) => {
       state.todos = [...state.todos, action.payload];
+
+      // Stats
+      state.stats.currentTodoCount = state.todos.length;
+      state.stats.totalTodoCount += 1;
     },
     clearHistory: (state) => {
       state.lines = [];
     },
+    deleteTodoByIndex: (state, action: PayloadAction<number>) => {
+      const updatedTodos = [...state.todos];
+      updatedTodos.splice(action.payload, 1);
+      state.todos = updatedTodos;
+
+      // Stats
+      state.stats.currentTodoCount = state.todos.length;
+      state.stats.terminatedTodos += 1;
+    },
   },
 });
 
-export const { addLine, addTodo, clearHistory } = terminalSlice.actions;
+export const { addLine, addTodo, clearHistory, deleteTodoByIndex } =
+  terminalSlice.actions;
 
 export default terminalSlice.reducer;
