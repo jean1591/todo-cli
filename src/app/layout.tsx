@@ -18,7 +18,7 @@ export default function RootLayout({
         <body
           className={classNames(
             inter.className,
-            "bg-zinc-950 text-zinc-100 px-4 mx-auto max-w-7xl"
+            "bg-zinc-900 text-zinc-100 p-8 mx-auto"
           )}
         >
           {children}
