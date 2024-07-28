@@ -3,10 +3,13 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import {
   Stats,
+  addHistory,
   addLine,
   addTodo,
-  clearHistory,
+  clearTerminal,
+  decrementHistoryIndex,
   deleteTodoByIndex,
+  incrementHistoryIndex,
 } from "../lib/store/features/terminal/slice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -85,8 +88,8 @@ const statsGenerator = (stats: Stats) => {
 };
 
 export const CommandLine = () => {
-  const { stats, todos } = useSelector(
-    (state: RootState) => state.interactions
+  const { history, historyIndex, stats, todos } = useSelector(
+    (state: RootState) => state.terminal
   );
   const dispatch = useDispatch();
 
@@ -96,25 +99,29 @@ export const CommandLine = () => {
   const handleNewLine = (command: string): string => {
     switch (getAction(command)) {
       case ActionEnum.CLEAR:
-        dispatch(clearHistory());
+        dispatch(clearTerminal());
         return "";
+
       case ActionEnum.HELP:
         return help;
+
       case ActionEnum.LS:
         const stringifiedTodos = todos.reduce((acc, current, index) => {
           return acc + `<li className="ml-8">${index}. ${current}</li>`;
         }, "");
-
         return `<ul>${stringifiedTodos}</ul>`;
+
       case ActionEnum.TOUCH:
         const todo = command.split("touch")[1].trim();
         dispatch(addTodo(todo));
 
         return `<p className="ml-8 text-zinc-100"><span className="text-blue-400 font-semibold">${todo}</span> was added to todo list</p>`;
+
       case ActionEnum.RM:
         const index = parseInt(command.split("rm")[1].trim(), 10);
         dispatch(deleteTodoByIndex(index));
         return "";
+
       case ActionEnum.STATS:
         return statsGenerator(stats);
       default:
@@ -160,8 +167,20 @@ export const CommandLine = () => {
           )
         );
         dispatch(addLine(handleNewLine(command)));
+        dispatch(addHistory(command));
         setCommand("");
       }
+    } else if (event.key === "ArrowUp" && historyIndex > 0) {
+      dispatch(decrementHistoryIndex());
+      setCommand(history[historyIndex]);
+    } else if (event.key === "ArrowDown" && historyIndex < history.length - 1) {
+      dispatch(incrementHistoryIndex());
+      setCommand(history[historyIndex]);
+    } else if (
+      event.key === "ArrowDown" &&
+      historyIndex === history.length - 1
+    ) {
+      setCommand("");
     }
   };
 

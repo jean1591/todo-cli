@@ -15,12 +15,21 @@ export interface Stats {
 }
 
 export interface TerminalSlice {
+  history: string[];
+  historyIndex: number;
   lines: string[];
   stats: Stats;
   todos: string[];
 }
 
 const initialState: TerminalSlice = {
+  history: [
+    "touch call frank",
+    "touch see camille",
+    "touch call max",
+    "touch see pierre",
+  ],
+  historyIndex: 3, // init at history.length - 1
   lines: initialLines,
   stats: {
     currentTodoCount: 2,
@@ -34,6 +43,16 @@ export const terminalSlice = createSlice({
   name: "terminalSlice",
   initialState,
   reducers: {
+    addHistory: (state, action: PayloadAction<string>) => {
+      state.history = [...state.history, action.payload];
+      state.historyIndex = state.history.length - 1;
+    },
+    incrementHistoryIndex: (state) => {
+      state.historyIndex = state.historyIndex + 1;
+    },
+    decrementHistoryIndex: (state) => {
+      state.historyIndex = state.historyIndex - 1;
+    },
     addLine: (state, action: PayloadAction<string>) => {
       state.lines = [...state.lines, action.payload];
     },
@@ -44,7 +63,7 @@ export const terminalSlice = createSlice({
       state.stats.currentTodoCount = state.todos.length;
       state.stats.totalTodoCount += 1;
     },
-    clearHistory: (state) => {
+    clearTerminal: (state) => {
       state.lines = [];
     },
     deleteTodoByIndex: (state, action: PayloadAction<number>) => {
@@ -59,7 +78,14 @@ export const terminalSlice = createSlice({
   },
 });
 
-export const { addLine, addTodo, clearHistory, deleteTodoByIndex } =
-  terminalSlice.actions;
+export const {
+  addHistory,
+  incrementHistoryIndex,
+  decrementHistoryIndex,
+  addLine,
+  addTodo,
+  clearTerminal,
+  deleteTodoByIndex,
+} = terminalSlice.actions;
 
 export default terminalSlice.reducer;

@@ -3,7 +3,7 @@ import terminalReducer from "./features/terminal/slice";
 
 export const store = configureStore({
   reducer: {
-    interactions: terminalReducer,
+    terminal: terminalReducer,
   },
 });
 

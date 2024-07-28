@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 
 export const Terminal = () => {
-  const { lines } = useSelector((state: RootState) => state.interactions);
+  const { lines } = useSelector((state: RootState) => state.terminal);
 
   return (
     <div className="mb-4">
