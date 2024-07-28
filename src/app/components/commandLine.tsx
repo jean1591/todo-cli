@@ -92,7 +92,9 @@ export const CommandLine = () => {
 
         const classname = classNames(
           "mt-4",
-          getAction(command) ? "text-green-300" : "text-red-300 font-semibold"
+          getAction(command)
+            ? "text-green-400/70"
+            : "text-red-400/70 font-semibold"
         );
 
         dispatch(
@@ -126,8 +128,8 @@ export const CommandLine = () => {
       <input
         className={classNames(
           getAction(command) || command === ""
-            ? "text-green-400"
-            : "text-red-400 font-semibold",
+            ? "text-green-400/70"
+            : "text-red-400/70 font-semibold",
           "bg-zinc-900  outline-none w-full"
         )}
         onChange={handleChange}
