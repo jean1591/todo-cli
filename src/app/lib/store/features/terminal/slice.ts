@@ -2,10 +2,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialLines = [
-  '<p className="text-green-400/70 mt-4">visitor@jata.com: ~$ touch call frank</p>',
-  '<p className="ml-8 text-zinc-300"><span className="text-blue-400/70 font-semibold">call frank</span> was added to todo list</p>',
-  '<p className="text-green-400/70 mt-4">visitor@jata.com: ~$ touch see camille</p>',
-  '<p className="ml-8 text-zinc-300"><span className="text-blue-400/70 font-semibold">see camille</span> was added to todo list</p>',
+  '<p className="mt-4">visitor@jata.com: ~$ touch call frank</p>',
+  '<p className="ml-8 text-zinc-300"><span className="font-semibold">call frank</span> was added to todo list</p>',
+  '<p className="mt-4">visitor@jata.com: ~$ touch see camille</p>',
+  '<p className="ml-8 text-zinc-300"><span className="font-semibold">see camille</span> was added to todo list</p>',
 ];
 
 export interface Stats {

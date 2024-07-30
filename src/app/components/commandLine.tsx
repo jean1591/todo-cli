@@ -88,18 +88,11 @@ export const CommandLine = () => {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       if (!isCommandEmpty(command)) {
-        const [action, rest] = command.split(" ");
-
-        const classname = classNames(
-          "mt-4",
-          getAction(command)
-            ? "text-green-400/70"
-            : "text-red-400/70 font-semibold"
-        );
+        const [action, ...rest] = command.split(" ");
 
         dispatch(
           addLine(
-            `<p className="${classname}">${baseCommand} ${action} ${
+            `<p className="text-pastel-green mt-4">${baseCommand} ${action} ${
               rest ?? ""
             }</p>`
           )
@@ -123,15 +116,10 @@ export const CommandLine = () => {
   };
 
   return (
-    <div className="flex gap-x-1 mt-4">
+    <div className="flex gap-x-1 mt-4 text-pastel-green ">
       <p className="text-nowrap">{baseCommand}</p>
       <input
-        className={classNames(
-          getAction(command) || command === ""
-            ? "text-green-400/70"
-            : "text-red-400/70 font-semibold",
-          "bg-zinc-900  outline-none w-full"
-        )}
+        className="bg-zinc-900 outline-none w-full"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         ref={inputRef}
