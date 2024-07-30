@@ -32,11 +32,11 @@ const initialState: TerminalSlice = {
   historyIndex: 3, // init at history.length - 1
   lines: initialLines,
   stats: {
-    currentTodoCount: 2,
-    totalTodoCount: 2,
+    currentTodoCount: 4,
+    totalTodoCount: 4,
     terminatedTodos: 0,
   },
-  todos: ["call frank", "see camille"],
+  todos: ["call frank", "see camille", "touch call max", "touch see pierre"],
 };
 
 export const terminalSlice = createSlice({
