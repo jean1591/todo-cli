@@ -8,7 +8,6 @@ const config: Config = {
         pastel: {
           green: "#519975",
           red: "#B89076",
-          blue: "#9C8394",
         },
       },
     },

@@ -2,7 +2,7 @@ import { Stats } from "@/app/lib/store/features/terminal/slice";
 
 export const getStatsLines = (stats: Stats) => {
   return `
-      <div className="ml-8 p-4 border-[1px] border-pastel-blue w-1/4 text-pastel-blue">
+      <div className="ml-8 p-4 border-[1px] border-pastel-green w-1/4 text-pastel-green">
       <div className="flex items-center justify-between">
       <p>Total todos</p>
       <p>${stats.totalTodoCount}</p>

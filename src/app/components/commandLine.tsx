@@ -92,9 +92,7 @@ export const CommandLine = () => {
 
         dispatch(
           addLine(
-            `<p className="text-pastel-green mt-4">${baseCommand} ${action} ${
-              rest ?? ""
-            }</p>`
+            `<p className="mt-4">${baseCommand} ${action} ${rest ?? ""}</p>`
           )
         );
         dispatch(addLine(handleNewLine(command)));
@@ -116,7 +114,7 @@ export const CommandLine = () => {
   };
 
   return (
-    <div className="flex gap-x-1 mt-4 text-pastel-green ">
+    <div className="flex gap-x-1 mt-4">
       <p className="text-nowrap">{baseCommand}</p>
       <input
         className="bg-zinc-900 outline-none w-full"
